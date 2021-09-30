@@ -26,6 +26,8 @@ class GuiSchemeStego:
 
         self.__method_buttons = [self.lsb_btn, self.lsb_direct_btn, self.lsb_rnd_btn,
                                  self.kz_btn, self.kz_direct_btn, self.kz_rnd_btn]
+        self.__method_matches = [None, StegoMethod.LSB_LINEAR, StegoMethod.LSB_RANDOM,
+                                 None, StegoMethod.KZ_LINEAR, StegoMethod.KZ_RANDOM]
 
     def __icon(self):
         try:
@@ -272,11 +274,10 @@ class GuiSchemeStego:
         elif self.__active_btn == self.kz_direct_btn or self.__active_btn == self.kz_rnd_btn:
             self.__btn_turn(self.kz_btn, True)
 
-    # Maybe Errors! Need to check
     def get_active_method(self):
         for i in range(len(self.__method_buttons)):
             if self.__method_buttons[i] == self.__active_btn:
-                return StegoMethod(i)
+                return self.__method_matches[i]
 
     def __waiting_frame(self):
         # Waiting frame
