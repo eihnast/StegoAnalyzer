@@ -45,7 +45,8 @@ class AppGui:
 
                 chisqr_imar = results.ChiSqrResult.visualized
                 if chisqr_imar is not None:
-                    prev = get_tkimg_byarr(chisqr_imar, width=schema.ip_img.winfo_width())
+                    ip_img_sizes = (schema.ip_img.winfo_width(), schema.ip_img.winfo_height())
+                    prev = get_tkimg_byarr(chisqr_imar, widget_sizes=ip_img_sizes)
                     size = chisqr_imar.shape[1], chisqr_imar.shape[0]
                     self.__main_window.upd_preview(prev, size)
 

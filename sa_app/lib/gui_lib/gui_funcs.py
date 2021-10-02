@@ -4,11 +4,11 @@ from PIL import Image as _Image, ImageTk as _ImageTk
 from sa_app.lib.logs import AppLog as _AppLog
 
 
-def get_tkimg_bypath(img_path, width=None):  # tk_get_img
+def get_tkimg_bypath(img_path, widget_sizes=None):
     try:
         img = _Image.open(img_path)
-        if width is not None:
-            img = img.resize(fit_img_size((img.width, img.height), width))
+        if widget_sizes is not None:
+            img = img.resize(fit_img_size((img.width, img.height), widget_sizes))
         result = _ImageTk.PhotoImage(img)
     except Exception as ex:
         _AppLog().write_with_error(ex, prefix="GUI Error",
@@ -18,11 +18,11 @@ def get_tkimg_bypath(img_path, width=None):  # tk_get_img
     return result
 
 
-def get_tkimg_byarr(img_array, width=None):  # tk_get_from_imar
+def get_tkimg_byarr(img_array, widget_sizes=None):
     try:
         img = _Image.fromarray(img_array.astype(_np.uint8))
-        if width is not None:
-            img = img.resize(fit_img_size((img.width, img.height), width))
+        if widget_sizes is not None:
+            img = img.resize(fit_img_size((img.width, img.height), widget_sizes))
         result = _ImageTk.PhotoImage(img)
     except Exception as ex:
         _AppLog().write_with_error(ex, prefix="GUI Error",
@@ -32,12 +32,15 @@ def get_tkimg_byarr(img_array, width=None):  # tk_get_from_imar
     return result
 
 
-def fit_img_size(sizes, width=None):  # get_new_sizes
-    if width is not None:
+def fit_img_size(sizes, new_sizes=None):
+    if new_sizes is not None:
         w, h = sizes
-        w_new = width
-        h_new = h * (w_new / w)
-        return w_new, int(h_new)
+        w_new, h_new = new_sizes
+        if w >= h:
+            h_new = h * (w_new / w)
+        else:
+            w_new = w * (h_new / h)
+        return int(w_new), int(h_new)
     return sizes
 
 

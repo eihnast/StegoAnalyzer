@@ -78,7 +78,8 @@ class MainWindow:
             self.__loaded_img = img
             self.__schema.img_name.set(img[img.rfind("/") + 1:])
 
-            prev = get_tkimg_bypath(img, width=self.__schema.ip_img.winfo_width())
+            ip_img_sizes = (self.__schema.ip_img.winfo_width(), self.__schema.ip_img.winfo_height())
+            prev = get_tkimg_bypath(img, widget_sizes=ip_img_sizes)
             self.upd_preview(prev, ImageHandler().load(img).get_size())
 
     def __clear_results_area(self):
